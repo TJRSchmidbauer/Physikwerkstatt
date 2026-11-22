@@ -56,3 +56,15 @@ Die Auswertung läuft auf dem jeweiligen Gerät. Die Sitzung wird im lokalen Bro
 Idee, Anforderungen und die Ausrichtung auf den Unterricht stammen von Tobias Schmidbauer. OpenAI Codex hat bei der Ausarbeitung der Versuchstexte, der Illustrationen und des Programmcodes mitgewirkt. Im Unterricht berechnet der veröffentlichte JavaScript-Code die Diagramme und Modellparameter direkt aus den eingegebenen Messwerten. Dafür wird kein KI-Dienst aufgerufen.
 
 Die fünf Regressionsmodelle wurden mit bekannten mathematischen Zusammenhängen getestet. Für den Einsatz eines konkreten Versuchs prüft die Lehrkraft Aufbau, Messbereich, Modellannahmen und Sicherheit anhand der vorhandenen Geräte. Wenn dir ein fachlicher Fehler auffällt, helfen Versuchstitel, Eingabewerte und erwartetes Ergebnis beim Nachvollziehen. [Fehler melden](https://github.com/TJRSchmidbauer/Physikwerkstatt/issues)
+
+## Live-Messung im Klassenzimmer
+
+Im gleichen, vertrauenswürdigen Schulnetz können Gruppen vom eigenen Gerät aus Werte an den Beamer senden. Der Lehrkraftrechner übernimmt den Server. GitHub Pages liefert die öffentliche Werkstatt weiterhin statisch aus.
+
+1. Lade das Repository als ZIP herunter und entpacke es. Öffne im Projektordner ein Terminal und starte mit Node.js 22 oder neuer `node live/server.mjs`. Es sind keine npm-Pakete erforderlich.
+2. Öffne auf dem Lehrkraftrechner **http://127.0.0.1:8080** und wähle **Raum öffnen**. Zeige die Schulnetz-Adresse und den Raumcode am Beamer. Bei mehreren Adressen wähle die des mit der Klasse gemeinsam genutzten Netzes.
+3. Die Gruppen öffnen diese Adresse, tragen Raumcode, Gruppennummer sowie x und y ein und wählen **Senden**. Vereinbare vorher die Einheiten. Neue Messpunkte erscheinen ungefähr alle zwei Sekunden oben in der Beamer-Tabelle. Die Geräte müssen sich im Schulnetz erreichen können (TCP-Port 8080).
+4. Für eine Regression wähle vor dem Beenden **Messreihe für die Auswertung sichern**, dann **Auswertungsraum öffnen → Sitzung verwalten → Sitzung öffnen**. Ergänze im Auswertungsraum die Achsenbezeichnungen und Einheiten.
+5. **Raum schließen** verwirft die Daten im Arbeitsspeicher. Beim Schließen oder Neuladen des Lehrkraft-Tabs sendet der Browser ein Endsignal. Bleibt es aus, sperrt der Server den Raum spätestens 30 Sekunden nach dem letzten Lebenszeichen. Das gilt auch beim Zuklappen des Rechners nach dem Wiederaufwachen. Eine ausdrücklich heruntergeladene Datei bleibt erhalten.
+
+Der Live-Server ist für das lokale Schulnetz vorgesehen. Die LAN-Verbindung nutzt HTTP. Verwende Gruppennummern und öffne den Port ausschließlich für das benötigte Schulnetz. Lernende mit Raumcode können Messpunkte einreichen. Die Raumverwaltung ist an die Loopback-Adresse des Lehrkraftrechners und einen separaten, zufälligen Sitzungsschlüssel gebunden.
