@@ -1,0 +1,16 @@
+{
+  "name": "ts. physikwerkstatt.",
+  "short_name": "physikwerkstatt",
+  "description": "Experimente, Messauswertung und Unterrichtspakete für den Physikunterricht, Klasse 7–10. Läuft offline.",
+  "lang": "de",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#FBF4EC",
+  "theme_color": "#FBF4EC",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

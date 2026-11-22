@@ -17,10 +17,19 @@ Eine browserbasierte Werkstatt von Tobias Schmidbauer für den Physikunterricht 
 
 | Bereich | Was du dort tun kannst |
 | --- | --- |
-| **Katalog** | 120 illustrierte Versuche nach Jahrgangsstufe und Material durchsuchen und anhand der Aufbauskizze die Vorbereitung planen. |
-| **Planen** und **Unterrichten** | Eine Stunde zusammenstellen oder mit einem der acht vorbereiteten Unterrichtspakete einsteigen. |
+| **Katalog** | 120 illustrierte Versuche nach Jahrgangsstufe, Material und LehrplanPLUS-Lernbereich durchsuchen. Jeder Versuch hat einen Link und einen QR-Code zum Teilen. |
+| **Planen** und **Unterrichten** | Eine Stunde zusammenstellen, die Materialliste mit der Sammlung abgleichen und ausdrucken oder mit einem der acht vorbereiteten Unterrichtspakete einsteigen. |
 | **Forschen** | Einen von vier Forschungsaufträgen starten. Die Gruppen entscheiden mit begrenztem Messbudget, welche Messung ihre Vermutung am besten prüft. |
-| **Auswerten** | Eigene Gruppenmessungen zusammenführen, Modelle vergleichen und die Ergebnisse projizieren oder drucken. |
+| **Auswerten** | Eigene Gruppenmessungen und Phyphox-Messungen zusammenführen, Modelle vergleichen und die Ergebnisse projizieren oder drucken. |
+
+## Neu in Version 1.1
+
+- **Lernbereiche:** Jeder Katalogeintrag nennt seinen Lernbereich im LehrplanPLUS Gymnasium Bayern (NT 7 und Physik 8 bis 10). Der Filter „Lernbereich“ passt sich der gewählten Jahrgangsstufe an. Die Titel stammen von den Seiten des ISB (Stand November 2026).
+- **Phyphox:** Unter **Auswerten → Phyphox-Messung einlesen** lässt sich der CSV-Export einer Messung öffnen. Du wählst die Spalten für x und y, das Zeitfenster und eine Ausdünnung auf höchstens 500 Punkte je Gruppe. Sieben Versuche tragen eine Phyphox-Idee, die du über den Katalogfilter „Mit Handy-Sensor“ findest. Die Ideen sind Vorschläge und sollten vor dem Einsatz am eigenen Gerät erprobt werden.
+- **Direktlinks und QR-Code:** Der Knopf **Teilen** an jedem Versuch zeigt einen Link der Form `#versuch/60` und einen QR-Code, der im Browser erzeugt wird. Wer den Link öffnet, sieht genau diesen Versuch.
+- **Materialliste:** Unter **Planen** gibt es die Materialliste aller eingeplanten Stationen mit Sammlungsabgleich. Die Haken bleiben im Browser des Geräts gespeichert. Der Ausdruck enthält Felder für den erprobten Aufbau und die Gefährdungsbeurteilung. Der Sicherheitshinweis dazu ist eine Orientierung und nicht verbindlich.
+- **Offline als App:** Die Werkstatt lässt sich über „Installieren“ oder „Zum Startbildschirm“ auf Rechner, Tablet und Smartphone ablegen und läuft danach ohne Netz.
+- **Rückmeldung:** Version und Änderungsprotokoll stehen im Fuß der Seite und im [CHANGELOG](CHANGELOG.md). Rückmeldungen gehen auch ohne GitHub-Konto per E-Mail an info@schmidbauer.jetzt.
 
 ### Messwerte aus der Klasse übernehmen
 
@@ -47,15 +56,23 @@ Die Werkstatt berechnet die Modellparameter im Browser mit der Methode der klein
 
 ## Technik, Speicherung und Offlinebetrieb
 
-Die veröffentlichte Anwendung steckt in einer einzigen [index.html](./index.html). Sie enthält den Katalog, die Zeichenanweisungen, das Layout und den JavaScript-Code. Der Browser zeichnet Aufbauten und Diagramme auf Canvas und berechnet die Regression per QR-Zerlegung. GitHub Pages liefert die statische Datei aus dem Branch `gh-pages` aus. Für den Offlinebetrieb kannst du die Datei herunterladen und in einem Browser mit aktiviertem JavaScript öffnen.
+Die veröffentlichte Anwendung steckt in einer einzigen [index.html](./index.html). Sie enthält den Katalog, die Zeichenanweisungen, das Layout, die Schriften und den JavaScript-Code. Der Browser zeichnet Aufbauten und Diagramme auf Canvas und berechnet die Regression per QR-Zerlegung. Dazu kommen das [Manifest](manifest.webmanifest), der [Service Worker](sw.js) und die [Icons](icons/) für die Installation als App. GitHub Pages liefert die statischen Dateien aus dem Branch `gh-pages` aus. Der Service Worker legt nur Dateien dieser Seite im Browser ab und ruft keine fremden Server auf. Ohne Installation kannst du `index.html` auch herunterladen und in einem Browser mit aktiviertem JavaScript öffnen.
+
+Den QR-Code erzeugt die Bibliothek [qrcode-generator](https://github.com/kazuhikoarase/qrcode-generator) von Kazuhiko Arase (MIT-Lizenz), eingebettet in `index.html`. Die Sicherheitsrichtlinie (Content Security Policy) im Kopf der Datei enthält die Prüfsumme des Skripts. Wer das Skript ändert, muss sie neu berechnen.
 
 Die Auswertung läuft auf dem jeweiligen Gerät. Die Sitzung wird im lokalen Browserspeicher abgelegt. Sichere sie vor einem Gerätewechsel oder vor dem Löschen der Browserdaten über **Sitzung verwalten → Sitzung sichern** als JSON-Datei. Auf dem Zielgerät kannst du sie mit **Sitzung öffnen** fortsetzen. Für die Zusammenarbeit an mehreren Geräten führt die Lehrkraft die Reihen per Dateiimport oder durch Einfügen in die jeweilige Gruppe zusammen.
 
-## Entstehung und KI
+## Entstehung, KI und Lizenz
 
-Idee, Anforderungen und die Ausrichtung auf den Unterricht stammen von Tobias Schmidbauer. OpenAI Codex hat bei der Ausarbeitung der Versuchstexte, der Illustrationen und des Programmcodes mitgewirkt. Im Unterricht berechnet der veröffentlichte JavaScript-Code die Diagramme und Modellparameter direkt aus den eingegebenen Messwerten. Dafür wird kein KI-Dienst aufgerufen.
+Idee, Anforderungen, didaktische Ausrichtung und Freigabe stammen von Tobias Schmidbauer ([schmidbauer.io](https://schmidbauer.io/)). Die Werkstatt entstand mit KI-Unterstützung: OpenAI Codex hat bei den Versuchstexten, den Illustrationen und dem Programmcode mitgewirkt, Claude (Anthropic) bei der Anpassung an das Markenhandbuch von schmidbauer.io. Im Unterricht berechnet der veröffentlichte JavaScript-Code die Diagramme und Modellparameter direkt aus den eingegebenen Messwerten. Dafür wird kein KI-Dienst aufgerufen.
 
 Die fünf Regressionsmodelle wurden mit bekannten mathematischen Zusammenhängen getestet. Für den Einsatz eines konkreten Versuchs prüft die Lehrkraft Aufbau, Messbereich, Modellannahmen und Sicherheit anhand der vorhandenen Geräte. Wenn dir ein fachlicher Fehler auffällt, helfen Versuchstitel, Eingabewerte und erwartetes Ergebnis beim Nachvollziehen. [Fehler melden](https://github.com/TJRSchmidbauer/Physikwerkstatt/issues)
+
+Die Werkstatt steht unter der Lizenz [Creative Commons Namensnennung – Nicht kommerziell 4.0 (CC BY-NC 4.0)](LICENSE). Du darfst sie im Unterricht einsetzen, weitergeben und anpassen, solange du den Urheber nennst und sie nicht kommerziell verwendest.
+
+Gestaltung nach dem Markenhandbuch von schmidbauer.io: Palette „Apricot und Kohle“, Space Grotesk für Überschriften, Atkinson Hyperlegible für Fließtext. Beide Schriften sind in die Datei eingebettet. Es werden weder Google Fonts noch andere Fremdserver angefragt.
+
+[Impressum](https://schmidbauer.io/impressum/) · [Datenschutz](https://schmidbauer.io/datenschutz/)
 
 ## Live-Messung im Klassenzimmer
 
